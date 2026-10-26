@@ -1,0 +1,20 @@
+# Set default behavior to automatic text line ending normalization (LF in repo)
+* text=auto eol=lf
+
+# Document formats
+*.md text eol=lf
+*.txt text eol=lf
+*.json text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.sh text eol=lf
+
+# Binary files
+*.img binary
+*.zip binary
+*.tar binary
+*.tar.gz binary
+*.tgz binary
+*.png binary
+*.jpg binary
+*.jpeg binary

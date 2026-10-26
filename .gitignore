@@ -1,0 +1,47 @@
+# AOSP Build Output and Repository Directories
+out/
+.repo/
+
+# Build Artifacts and Disk Images
+*.img
+*.iso
+*.bin
+*.zip
+*.tar
+*.tar.gz
+*.tar.xz
+*.tgz
+
+# Cryptographic Keys, Certificates, and Signing Material
+*.key
+*.pem
+*.p12
+*.jks
+*.keystore
+*.pk8
+*.x509.pem
+*.crt
+*.csr
+*.der
+
+# Environment files and Local Credentials
+.env
+.env.*
+*.env
+
+# Logs and Diagnostics
+*.log
+*.syslog
+
+# IDE, Editor, and Tool Configuration Files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.project
+.classpath
+
+# OS Junk Files
+.DS_Store
+Thumbs.db
