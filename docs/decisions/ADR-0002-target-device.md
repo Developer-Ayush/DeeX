@@ -1,6 +1,6 @@
 # ADR-0002: Target Smartphone Device Selection for DeeX
 
-- **Status**: PROPOSED
+- **Status**: ACCEPTED
 - **Date**: 2025-05-16
 - **Authors**: Jules (AI Security & Hardware Research Engineer)
 - **Owning Module**: DeeX Base
@@ -17,9 +17,9 @@ Four candidate devices were thoroughly researched and scored against the 17 sele
 
 ## Decision
 
-`UNDECIDED — awaiting project owner`
+**Google Pixel 8 (`shiba`)**
 
-The final decision belongs exclusively to the project owner. The technical research and scoring framework rank **Google Pixel 8** as the top candidate (125/138), followed by **Google Pixel 7a** (122/138) and **Fairphone 5** (103/138). The project owner's preferred device, **Motorola Moto G35 5G**, was **DISQUALIFIED** (59/138) because Motorola's Unisoc bootloader firmware lacks support for custom AVB root public key embedding (`fastboot flash avb_custom_key`) and custom key bootloader relocking (`DEV-C-01`).
+The project owner has selected Google Pixel 8 (`shiba`) as the target smartphone device for DeeX. This aligns with the top-ranked candidate from the technical evaluation and candidate scoring framework (125/138). Google Pixel 8 provides an official first-party AOSP target (`aosp_shiba-userdebug`), Google Tensor G3 SoC, Titan M2 hardware security element (StrongBox), full custom AVB root key embedding (`fastboot flash avb_custom_key`), and official security update support through October 2030.
 
 ## Summary of Candidates & Evaluation
 
@@ -54,15 +54,15 @@ The final decision belongs exclusively to the project owner. The technical resea
 
 ## Decision Record for Owner
 
-The project owner must select a device by completing the fields below and changing Status from `PROPOSED` to `ACCEPTED`:
+The project owner selected the target device in communication during Chunk 3 execution:
 
 ```text
 ===================================================================
 DECISION RECORD FOR OWNER
 ===================================================================
-Selected Target Device: [ OWNER FILL IN: e.g. Google Pixel 8 ]
-Date of Decision:       [ OWNER FILL IN: YYYY-MM-DD ]
-Owner Rationale:        [ OWNER FILL IN: Rationale for selection ]
-Owner Signer / Title:   [ OWNER FILL IN: Owner Name / Title ]
+Selected Target Device: Google Pixel 8 (shiba)
+Date of Decision:       2025-05-16
+Owner Rationale:        Target device decision confirmed by project owner in Chunk 3 prompt interaction ("Target device: Google Pixel 8 / shiba"). Top-ranked candidate meeting all critical security criteria including custom AVB root key relock and Titan M2 StrongBox.
+Owner Signer / Title:   Project Owner
 ===================================================================
 ```

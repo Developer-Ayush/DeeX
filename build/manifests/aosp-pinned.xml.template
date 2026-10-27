@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  DeeX Upstream AOSP Pinned Manifest Template
+  Status: Draft
+  Date: 2025-05-16
+  Master Plan Sections: 2.2, 2.4
+
+  NOTE: This file is a template because the project owner has not yet confirmed
+  the selected AOSP release branch in docs/decisions/ADR-0003-aosp-release.md.
+  Per master plan rules, revision commit hashes must never be fabricated or guessed.
+  Once the project owner confirms the release tag (e.g. android-15.0.0_r1), this file
+  will be instantiated as aosp-pinned.xml with every project pinned to an exact 40-character SHA1.
+
+  UNKNOWN — decision required
+-->
+<manifest>
+  <remote name="aosp"
+          fetch="https://android.googlesource.com/"
+          review="https://android-review.googlesource.com/" />
+
+  <default revision="UNKNOWN — decision required"
+           remote="aosp"
+           sync-j="4" />
+
+  <!-- Core AOSP Build & System Projects Template Structure -->
+  <!-- UNKNOWN — decision required: Exact project pins awaiting AOSP release selection in ADR-0003 -->
+
+  <!-- Example Target Project Entries (To be fully populated upon ADR-0003 confirmation): -->
+  <!-- <project path="build/make" name="platform/build" revision="UNKNOWN — decision required" /> -->
+  <!-- <project path="device/google/shiba" name="device/google/shiba" revision="UNKNOWN — decision required" /> -->
+</manifest>
