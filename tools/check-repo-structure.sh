@@ -54,7 +54,7 @@ for dir in $REQUIRED_DIRS; do
     fi
 done
 
-# 2. Check required top-level files and Chunk 1 to 4 deliverables
+# 2. Check required top-level files and Chunk 1 to 5 deliverables
 REQUIRED_FILES="
 README.md
 AGENTS.md
@@ -70,6 +70,7 @@ docs/specifications/requirements-index.md
 docs/threat-model/README.md
 docs/testing/README.md
 docs/testing/test-record-template.md
+docs/testing/baseline-hardware-test-checklist.md
 docs/decisions/README.md
 docs/decisions/ADR-template.md
 docs/decisions/open-decisions.md
@@ -108,6 +109,11 @@ docs/build-records/two-build-comparison-procedure.md
 docs/build-records/troubleshooting.md
 docs/build-records/results-intake-template.md
 docs/build-records/measurements.md
+docs/build-records/flash-and-boot-procedure.md
+docs/build-records/partition-layout.md
+docs/build-records/baseline-hardware-support-report.md
+docs/build-records/known-limitations.md
+docs/build-records/base-completion-assessment.md
 tools/baseline-sync.sh
 tools/baseline-build.sh
 tools/make-build-record.sh
@@ -123,7 +129,22 @@ for file in $REQUIRED_FILES; do
     fi
 done
 
-# 3. Check .gitignore rules
+# 3. Check baseline hardware support report template banner rule
+RAW_RESULTS_FILE="docs/build-records/hardware-test-results-raw.md"
+REPORT_FILE="docs/build-records/baseline-hardware-support-report.md"
+TEMPLATE_BANNER="NO HARDWARE RESULTS HAVE BEEN PROVIDED — THIS REPORT IS A TEMPLATE"
+
+if [ ! -f "$RAW_RESULTS_FILE" ]; then
+    if [ -f "$REPORT_FILE" ]; then
+        if grep -q "$TEMPLATE_BANNER" "$REPORT_FILE"; then
+            log_info "Template banner present in $REPORT_FILE as raw results file is absent."
+        else
+            log_error "Missing template banner in $REPORT_FILE while $RAW_RESULTS_FILE is absent."
+        fi
+    fi
+fi
+
+# 4. Check .gitignore rules
 GITIGNORE=".gitignore"
 if [ -f "$GITIGNORE" ]; then
     for rule in "\*.key" "\*.pem" "\*.keystore" "out/" "\.repo/"; do
@@ -138,7 +159,7 @@ else
     log_error ".gitignore file missing"
 fi
 
-# 4. Check for prohibited signing key or certificate files in repo
+# 5. Check for prohibited signing key or certificate files in repo
 KEY_FILES=$(find . -path ./.git -prune -o \( -name "*.key" -o -name "*.pem" -o -name "*.keystore" -o -name "*.pk8" \) -print || true)
 if [ -n "$KEY_FILES" ]; then
     log_error "Found prohibited cryptographic key/certificate file(s) in repository: $KEY_FILES"
@@ -146,7 +167,7 @@ else
     log_info "No cryptographic key or certificate files found in repository"
 fi
 
-# 5. Check script hygiene rules (no sudo, no hardcoded absolute paths outside WORK_DIR, no dangerous rm -rf)
+# 6. Check script hygiene rules (no sudo, no hardcoded absolute paths outside WORK_DIR, no dangerous rm -rf)
 for script in tools/*.sh; do
     if [ -f "$script" ] && [ "$script" != "tools/check-repo-structure.sh" ]; then
         if grep -q '\bsudo\b' "$script"; then
