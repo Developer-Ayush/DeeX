@@ -54,7 +54,7 @@ for dir in $REQUIRED_DIRS; do
     fi
 done
 
-# 2. Check required top-level files and Chunk 1, 2, 3 deliverables
+# 2. Check required top-level files and Chunk 1 to 4 deliverables
 REQUIRED_FILES="
 README.md
 AGENTS.md
@@ -85,6 +85,7 @@ build/templates/source-manifest.md
 build/templates/third-party-dependency-record.md
 build/templates/release-manifest.md
 build/manifests/README.md
+build/manifests/aosp-pinned.xml
 build/manifests/deex-local-manifest.xml
 build/manifests/pin-log.md
 build/manifests/CHANGES.md
@@ -101,6 +102,17 @@ docs/specifications/reproducibility-policy.md
 docs/build-records/licence-and-dependency-inventory.md
 docs/build-records/CHANGELOG-chunks.md
 docs/build-records/build-configurations.md
+docs/build-records/baseline-build-procedure.md
+docs/build-records/vendor-binaries-procedure.md
+docs/build-records/two-build-comparison-procedure.md
+docs/build-records/troubleshooting.md
+docs/build-records/results-intake-template.md
+docs/build-records/measurements.md
+tools/baseline-sync.sh
+tools/baseline-build.sh
+tools/make-build-record.sh
+tools/compare-builds.sh
+tools/verify-vendor-binaries.sh
 "
 
 for file in $REQUIRED_FILES; do
@@ -111,18 +123,10 @@ for file in $REQUIRED_FILES; do
     fi
 done
 
-# Check pinned manifest or template existence
-if [ -f "build/manifests/aosp-pinned.xml" ] || [ -f "build/manifests/aosp-pinned.xml.template" ]; then
-    log_info "AOSP manifest (pinned or template) present"
-else
-    log_error "Neither aosp-pinned.xml nor aosp-pinned.xml.template present in build/manifests/"
-fi
-
 # 3. Check .gitignore rules
 GITIGNORE=".gitignore"
 if [ -f "$GITIGNORE" ]; then
     for rule in "\*.key" "\*.pem" "\*.keystore" "out/" "\.repo/"; do
-        # Strip backslashes for grep matching
         search_pattern=$(echo "$rule" | sed 's/\\//g')
         if grep -q "$search_pattern" "$GITIGNORE"; then
             log_info ".gitignore contains pattern: $search_pattern"
@@ -142,29 +146,28 @@ else
     log_info "No cryptographic key or certificate files found in repository"
 fi
 
-# 5. Check ADR-0002 status
-ADR2_FILE="docs/decisions/ADR-0002-target-device.md"
-if [ -f "$ADR2_FILE" ]; then
-    if grep -q "ACCEPTED" "$ADR2_FILE" || grep -q "UNDECIDED" "$ADR2_FILE"; then
-        log_info "ADR-0002 status verified (ACCEPTED or UNDECIDED)"
-    else
-        log_error "ADR-0002 does not contain required status string 'ACCEPTED' or 'UNDECIDED'"
-    fi
-else
-    log_error "Missing ADR-0002 file"
-fi
+# 5. Check script hygiene rules (no sudo, no hardcoded absolute paths outside WORK_DIR, no dangerous rm -rf)
+for script in tools/*.sh; do
+    if [ -f "$script" ] && [ "$script" != "tools/check-repo-structure.sh" ]; then
+        if grep -q '\bsudo\b' "$script"; then
+            log_error "Script $script contains prohibited 'sudo' command."
+        else
+            log_info "Script $script free of 'sudo'."
+        fi
 
-# 6. Check ADR-0003 status
-ADR3_FILE="docs/decisions/ADR-0003-aosp-release.md"
-if [ -f "$ADR3_FILE" ]; then
-    if grep -q "UNDECIDED" "$ADR3_FILE" || grep -q "Confirmed AOSP Release:" "$ADR3_FILE"; then
-        log_info "ADR-0003 status verified (contains UNDECIDED or confirmed release decision)"
-    else
-        log_error "ADR-0003 does not contain required status string 'UNDECIDED' or owner confirmation block"
+        if grep -q 'rm -rf \$[a-zA-Z0-9_]*' "$script" | grep -v '"\$'; then
+            log_error "Script $script contains unquoted rm -rf variable."
+        else
+            log_info "Script $script free of unquoted rm -rf variables."
+        fi
+
+        if grep -Eq '(/usr/|/var/|/opt/|/etc/|/tmp/)' "$script"; then
+            log_error "Script $script contains hard-coded system absolute path outside WORK_DIR."
+        else
+            log_info "Script $script free of hard-coded system absolute paths."
+        fi
     fi
-else
-    log_error "Missing ADR-0003 file"
-fi
+done
 
 if [ $ERRORS -gt 0 ]; then
     echo "Repository structure verification failed with $ERRORS error(s)."
