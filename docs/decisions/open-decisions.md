@@ -1,17 +1,19 @@
 # Open Decisions Log
 
-The following architectural and hardware decisions must be resolved by the project owner before downstream execution chunks can proceed.
+The following architectural, build, and hardware decisions are tracked for the DeeX project.
 
-| Decision ID | Decision Required | Status | Owner | Blocking Reason / Dependencies |
-|---|---|---|---|---|
-| `DEC-001` | Target smartphone model and SoC | OPEN | Project owner | Blocks target device configs in Chunk 2 and Kernel/Boot customization. |
-| `DEC-002` | Chosen AOSP release / branch | OPEN | Project owner | Blocks source manifest pinning (Chunk 3) and framework modifications. |
-| `DEC-003` | Kernel version and source (AOSP common kernel vs. vendor kernel) | OPEN | Project owner | Blocks Kernel module configuration and hardware driver setup. |
-| `DEC-004` | Availability and licensing of vendor source, firmware, and proprietary blobs for target device | OPEN | Project owner | Blocks vendor driver integration and hardware initialization. |
-| `DEC-005` | Bootloader unlock/relock and AVB custom-key support on target device | OPEN | Project owner | Blocks Boot module Verified Boot (AVB) implementation. |
-| `DEC-006` | Hardware security support on target device (Keymaster/KeyMint, StrongBox, secure element, trusted time source, biometric TEE) | OPEN | Project owner | Blocks Vault cryptographic key management and durable lockout time tracking. |
-| `DEC-007` | Project's own software licence | OPEN | Project owner | Blocks formal repository distribution licensing. |
-| `DEC-008` | Vulnerability-reporting contact | OPEN | Project owner | Blocks formal publication of SECURITY.md response procedure. |
-| `DEC-009` | Build host specification (CPU, RAM, disk) and operating system | OPEN | Project owner | Blocks reproducible build environment configuration. |
-| `DEC-010` | Whether and how the Google Mobile Services licensing process will be started, and who the legal applicant is | OPEN | Project owner | Blocks official GMS licensing application and certification workflow. |
-| `DEC-011` | Windows-compatibility technical approach | OPEN | Project owner | Deferred to Windows module specification and architecture planning. |
+| Decision ID | Decision Required | Status | Owner | Informed By / Related File | Blocking Reason / Dependencies |
+|---|---|---|---|---|---|
+| `DEC-001` | Target smartphone model and SoC | **RESOLVED** | Project owner | `docs/decisions/ADR-0002-target-device.md` | Selected: Google Pixel 8 (`shiba` / Tensor G3) |
+| `DEC-002` | Chosen AOSP release / tag | **OPEN** | Project owner | `docs/decisions/ADR-0003-aosp-release.md` | Proposes Android 15 (`android-15.0.0_r1`). Owner confirmation required to instantiate `aosp-pinned.xml`. |
+| `DEC-003` | Kernel version and source | **OPEN** | Project owner | `docs/decisions/ADR-0003-aosp-release.md` | Informs Pixel 8 Linux 6.1 LTS baseline (`kernel/google/gs-common`). |
+| `DEC-004` | Availability and licensing of vendor drivers/blobs | **OPEN** | Project owner | `docs/build-records/licence-and-dependency-inventory.md` | Proprietary Google driver blobs available; owner must decide redistribution model. |
+| `DEC-005` | Bootloader unlock/relock and AVB custom key support | **RESOLVED** | Project owner | `docs/specifications/key-and-signing-policy.md` | Verified supported on Pixel 8 Titan M2 (`fastboot flash avb_custom_key`). |
+| `DEC-006` | Hardware security element (StrongBox, KeyMint, TEE) | **RESOLVED** | Project owner | `device/target-device/candidates/google-pixel-8.md` | Pixel 8 Titan M2 EAL6+ StrongBox coprocessor present. |
+| `DEC-007` | Project's own open source / proprietary licence | **OPEN** | Project owner | `docs/build-records/licence-and-dependency-inventory.md` | Blocks formal distribution terms for `system/deex/*`. |
+| `DEC-008` | Vulnerability-reporting security contact email | **OPEN** | Project owner | `SECURITY.md` | Blocks formal security response publication. |
+| `DEC-009` | Build host specification (CPU, RAM, free disk) | **OPEN** | Project owner | `build/env/host-requirements.md` | Host requirements documented (8+ CPU cores, 32+ GB RAM, 400+ GB disk); owner host specifications pending. |
+| `DEC-010` | GMS licensing process and legal applicant | **OPEN** | Project owner | Master Plan Section 13 | Blocks formal GMS partner application workflow. |
+| `DEC-011` | Windows-compatibility technical approach | **OPEN** | Project owner | Master Plan Section 12 | Deferred to Windows module specification phase. |
+| `DEC-012` | Git hosting location for DeeX-owned repositories | **OPEN** | Project owner | `build/manifests/deex-local-manifest.xml` | Remote set to `UNKNOWN — decision required` in local manifest. |
+| `DEC-013` | Continuous Integration (CI) service provider | **OPEN** | Project owner | `build/configs/testing.md` | CI runner environment pending decision. |

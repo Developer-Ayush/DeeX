@@ -4,16 +4,16 @@ DeeX is a security-first mobile operating system derived from the Android Open S
 
 ## Current Status
 
-**Current Status:** Repository Foundation (Chunk 1 of Base Module).
+**Current Status:** Base Module — Chunk 3 Complete (Pinned AOSP Manifest and Reproducible Build-Environment Definition).
 - **AOSP Source:** Not included in this repository.
 - **OS Images:** No installable or runnable OS image exists yet.
-- **Hardware Target:** Unassigned (`UNKNOWN — decision required`).
+- **Hardware Target:** Google Pixel 8 (`shiba` / Google Tensor G3 + Titan M2).
 
 ## Module Roadmap and Status
 
 | Module | Purpose | Status |
 |---|---|---|
-| **Base** | Source foundation, build environment, device configs | In progress — Chunk 1 |
+| **Base** | Source foundation, build environment, device configs | In progress — Chunk 3 complete |
 | **Boot** | Secure boot chain and verified boot (AVB) | Not started |
 | **Kernel** | Platform support, kernel drivers, memory & access controls | Not started |
 | **Vault** | Per-account encryption, key hierarchy, erasure & sanitization | Not started |
@@ -37,6 +37,6 @@ DeeX is a security-first mobile operating system derived from the Android Open S
 - `packages/apps/` — Integrated system applications.
 - `system/deex/` — DeeX custom core services (Identity, Vault, Isolation, Bridge, Connectivity, Policy).
 - `tests/` — Automated test suites and security verification scripts.
-- `build/` — Build system templates and configuration definitions.
+- `build/` — Build system manifests (`build/manifests/`), build environment container definitions (`build/env/`), build configurations (`build/configs/`), and templates.
 - `release/` — Production release manifests and distribution records.
-- `tools/` — Development and repository structure verification scripts.
+- `tools/` — Development, build host checking, manifest verification, and structure verification scripts.

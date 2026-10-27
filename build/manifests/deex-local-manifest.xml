@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  DeeX Local Manifest (.repo/local_manifests/deex.xml)
+  Status: Draft
+  Date: 2025-05-16
+  Master Plan Sections: 2.2, 2.3
+
+  This manifest adds custom DeeX system repositories and device configurations to
+  the AOSP build tree structure. Remote hosting location is set to UNKNOWN — decision required
+  until the project owner specifies the Git hosting server URL.
+-->
+<manifest>
+  <remote name="deex-remote"
+          fetch="UNKNOWN — decision required" />
+
+  <!-- DeeX Core Architecture & Documentation -->
+  <project path="docs" name="deex/docs" remote="deex-remote" revision="main" />
+
+  <!-- Target Device Configuration (Google Pixel 8 - shiba) -->
+  <project path="device/target-device" name="deex/device-target-device" remote="deex-remote" revision="main" />
+  <project path="vendor/target-device" name="deex/vendor-target-device" remote="deex-remote" revision="main" />
+
+  <!-- DeeX Custom System Services (Master Plan 2.3) -->
+  <project path="system/deex/identity" name="deex/system-deex-identity" remote="deex-remote" revision="main" />
+  <project path="system/deex/vault" name="deex/system-deex-vault" remote="deex-remote" revision="main" />
+  <project path="system/deex/isolation" name="deex/system-deex-isolation" remote="deex-remote" revision="main" />
+  <project path="system/deex/bridge" name="deex/system-deex-bridge" remote="deex-remote" revision="main" />
+  <project path="system/deex/connectivity" name="deex/system-deex-connectivity" remote="deex-remote" revision="main" />
+  <project path="system/deex/policy" name="deex/system-deex-policy" remote="deex-remote" revision="main" />
+
+  <!-- DeeX Applications -->
+  <project path="packages/apps" name="deex/packages-apps" remote="deex-remote" revision="main" />
+
+  <!-- DeeX Build & Release Tooling -->
+  <project path="build" name="deex/build" remote="deex-remote" revision="main" />
+  <project path="tools" name="deex/tools" remote="deex-remote" revision="main" />
+  <project path="tests" name="deex/tests" remote="deex-remote" revision="main" />
+</manifest>
