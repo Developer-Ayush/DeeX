@@ -24,6 +24,7 @@ docs/testing
 docs/decisions
 docs/build-records
 device/target-device
+device/target-device/candidates
 vendor/target-device
 packages/apps
 system/deex
@@ -50,7 +51,7 @@ for dir in $REQUIRED_DIRS; do
     fi
 done
 
-# 2. Check required top-level files
+# 2. Check required top-level files and Chunk 2 deliverables
 REQUIRED_FILES="
 README.md
 AGENTS.md
@@ -70,6 +71,11 @@ docs/decisions/README.md
 docs/decisions/ADR-template.md
 docs/decisions/open-decisions.md
 docs/decisions/ADR-0001-chunked-development.md
+docs/decisions/device-selection-criteria.md
+docs/decisions/device-candidates.md
+docs/decisions/device-gap-analysis.md
+docs/decisions/ADR-0002-target-device.md
+device/target-device/hardware-facts-worksheet.md
 build/templates/build-record.md
 build/templates/source-manifest.md
 build/templates/third-party-dependency-record.md
@@ -100,6 +106,35 @@ if [ -f "$GITIGNORE" ]; then
     done
 else
     log_error ".gitignore file missing"
+fi
+
+# 4. Check Chunk 2 specific validation rules
+ADR2_FILE="docs/decisions/ADR-0002-target-device.md"
+if [ -f "$ADR2_FILE" ]; then
+    if grep -q "UNDECIDED" "$ADR2_FILE"; then
+        log_info "ADR-0002 correctly states UNDECIDED"
+    else
+        log_error "ADR-0002 does not contain required string 'UNDECIDED'"
+    fi
+else
+    log_error "Missing ADR-0002 file"
+fi
+
+# 5. Check candidate files status lines do not contain "selected"
+CANDIDATE_DIR="device/target-device/candidates"
+if [ -d "$CANDIDATE_DIR" ]; then
+    for cand_file in "$CANDIDATE_DIR"/*.md; do
+        if [ -f "$cand_file" ] && [ "$cand_file" != "$CANDIDATE_DIR/README.md" ]; then
+            status_line=$(head -n 10 "$cand_file" | grep -i "^**Status:**" || true)
+            if echo "$status_line" | grep -iq "selected"; then
+                log_error "Candidate file $cand_file contains 'selected' in status line: $status_line"
+            else
+                log_info "Candidate file $cand_file status line verified unselected"
+            fi
+        fi
+    done
+else
+    log_error "Candidate directory missing: $CANDIDATE_DIR"
 fi
 
 if [ $ERRORS -gt 0 ]; then
