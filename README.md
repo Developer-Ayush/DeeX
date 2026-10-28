@@ -15,7 +15,7 @@ DeeX is a security-first mobile operating system derived from the Android Open S
 | Module | Purpose | Status |
 |---|---|---|
 | **Base** | Source foundation, build environment, device configs, baseline build procedure, flash procedure & hardware report structure | In progress — Chunk 5 complete (Base completion `NOT YET EVIDENCED`) |
-| **Boot** | Secure boot chain and verified boot (AVB) | Not started |
+| **Boot** | Secure boot chain and verified boot (AVB) | Specification in progress — Chunk 6 complete (Specification and plan only — nothing implemented or tested) |
 | **Kernel** | Platform support, kernel drivers, memory & access controls | Not started |
 | **Vault** | Per-account encryption, key hierarchy, erasure & sanitization | Not started |
 | **Identity** | Accounts, authentication, lockout policies, fingerprint state | Not started |

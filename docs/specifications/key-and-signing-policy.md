@@ -76,3 +76,8 @@ In the event of suspected key compromise or routine lifecycle expiration:
    - Prevent devices running signed firmware from downgrading or accepting images signed by the revoked key tier.
 3. **Emergency Key Generation**: Generate a replacement key pair in offline HSM storage and update public key digests in the device target tree (`device/target-device/`).
 4. **Post-Mortem**: Document root cause, affected build artifacts, and mitigation steps in `docs/build-records/`.
+
+## 7. DeeX Boot Key Hierarchy Specification Cross-Reference
+
+For detailed key hierarchy design, role specifications, air-gapped LUKS key storage rules, single-person authorization policies, and signing ceremony procedures, see:
+`docs/specifications/boot-key-hierarchy.md`

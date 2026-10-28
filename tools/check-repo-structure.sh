@@ -119,6 +119,14 @@ tools/baseline-build.sh
 tools/make-build-record.sh
 tools/compare-builds.sh
 tools/verify-vendor-binaries.sh
+docs/architecture/boot/verified-boot-research.md
+docs/specifications/boot-specification.md
+docs/specifications/boot-key-hierarchy.md
+docs/specifications/update-and-rollback-trust.md
+docs/threat-model/boot-threats.md
+docs/testing/boot-test-plan.md
+docs/decisions/ADR-0004-boot-trust-model.md
+docs/decisions/boot-feasibility-assessment.md
 "
 
 for file in $REQUIRED_FILES; do
@@ -189,6 +197,31 @@ for script in tools/*.sh; do
         fi
     fi
 done
+
+# 7. Check Chunk 6 Boot requirement coverage in Boot Test Plan
+SPEC_FILE="docs/specifications/boot-specification.md"
+TEST_PLAN_FILE="docs/testing/boot-test-plan.md"
+
+if [ -f "$SPEC_FILE" ] && [ -f "$TEST_PLAN_FILE" ]; then
+    BOOT_REQS=$(grep -E '^###+ `BOOT-[0-9]+`' "$SPEC_FILE" | sed -E 's/.*`(BOOT-[0-9]+)`.*/\1/' || true)
+    for req in $BOOT_REQS; do
+        if grep -q "$req" "$TEST_PLAN_FILE"; then
+            log_info "Boot requirement $req is covered in $TEST_PLAN_FILE"
+        else
+            log_error "Boot requirement $req in $SPEC_FILE is MISSING from $TEST_PLAN_FILE"
+        fi
+    done
+fi
+
+# 8. Check ADR-0004 Status
+ADR0004_FILE="docs/decisions/ADR-0004-boot-trust-model.md"
+if [ -f "$ADR0004_FILE" ]; then
+    if grep -q "UNDECIDED" "$ADR0004_FILE" || grep -q "PROPOSED" "$ADR0004_FILE"; then
+        log_info "ADR-0004 contains PROPOSED / UNDECIDED as required"
+    else
+        log_error "ADR-0004 status must be PROPOSED / UNDECIDED unless owner decision block is signed"
+    fi
+fi
 
 if [ $ERRORS -gt 0 ]; then
     echo "Repository structure verification failed with $ERRORS error(s)."
