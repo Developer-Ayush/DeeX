@@ -4,11 +4,11 @@ DeeX is a security-first mobile operating system derived from the Android Open S
 
 ## Current Status
 
-**Current Status:** Base Module — Chunk 5 Complete (Flash-and-Boot Procedure and Baseline Hardware-Support Report Templates Complete; Physical Flash & Test Pending Owner Execution — Base Completion `NOT YET EVIDENCED`).
+**Current Status:** Kernel Module — Specification in progress — Chunk 7 complete (Specification and plan only — nothing implemented or tested).
 - **AOSP Baseline Release**: Confirmed Android 15 (`android-15.0.0_r1` / `AP3A.240905.015.A2`). Pinned manifest `build/manifests/aosp-pinned.xml` fully instantiated.
 - **AOSP Source:** Not synced in this repository. Build wrapper tooling (`tools/baseline-sync.sh`, `tools/baseline-build.sh`) provided for project owner execution.
-- **OS Images:** No installable or runnable OS image exists yet in this repository. The project owner executes the baseline image build on their build host using Chunk 4 procedures and tooling, and flashes using Chunk 5 procedures.
-- **Hardware Target:** Google Pixel 8 (`shiba` / Google Tensor G3 + Titan M2).
+- **OS Images:** No installable or runnable OS image exists yet in this repository. Specification, research, and test plan only.
+- **Hardware Target:** Google Pixel 8 (`shiba` / Google Tensor G3 `zuma` + Titan M2).
 
 ## Module Roadmap and Status
 
@@ -16,7 +16,7 @@ DeeX is a security-first mobile operating system derived from the Android Open S
 |---|---|---|
 | **Base** | Source foundation, build environment, device configs, baseline build procedure, flash procedure & hardware report structure | In progress — Chunk 5 complete (Base completion `NOT YET EVIDENCED`) |
 | **Boot** | Secure boot chain and verified boot (AVB) | Specification in progress — Chunk 6 complete (Specification and plan only — nothing implemented or tested) |
-| **Kernel** | Platform support, kernel drivers, memory & access controls | Not started |
+| **Kernel** | Platform support, kernel drivers, memory & access controls, resource accounting | Specification in progress — Chunk 7 complete (Specification and plan only — nothing implemented or tested) |
 | **Vault** | Per-account encryption, key hierarchy, erasure & sanitization | Not started |
 | **Identity** | Accounts, authentication, lockout policies, fingerprint state | Not started |
 | **Isolation** | Storage & process separation between accounts | Not started |
@@ -32,7 +32,7 @@ DeeX is a security-first mobile operating system derived from the Android Open S
 
 ## Directory Map
 
-- `docs/` — Architecture documentation, master specification, threat model, test framework, decision records (ADRs), and build records (procedure, flash procedure, partition layout, vendor binaries, comparison, troubleshooting, intake template, measurements, hardware support report, limitations register, completion assessment).
+- `docs/` — Architecture documentation, master specification, threat model, test framework, decision records (ADRs), and build records.
 - `device/` — Device-specific board configs and targets (`target-device`).
 - `vendor/` — Vendor drivers, binaries, and licensing rules (`target-device`).
 - `packages/apps/` — Integrated system applications.

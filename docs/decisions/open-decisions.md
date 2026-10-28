@@ -1,12 +1,12 @@
 # Open Decisions Log
 
-The following architectural, build, and hardware decisions are tracked for the DeeX project.
+The following architectural, build, hardware, and kernel decisions are tracked for the DeeX project.
 
 | Decision ID | Decision Required | Status | Owner | Informed By / Related File | Blocking Reason / Dependencies |
 |---|---|---|---|---|---|
-| `DEC-001` | Target smartphone model and SoC | **RESOLVED** | Project owner | `docs/decisions/ADR-0002-target-device.md` | Selected: Google Pixel 8 (`shiba` / Tensor G3) |
+| `DEC-001` | Target smartphone model and SoC | **RESOLVED** | Project owner | `docs/decisions/ADR-0002-target-device.md` | Selected: Google Pixel 8 (`shiba` / Tensor G3 `zuma`). |
 | `DEC-002` | Chosen AOSP release / tag | **RESOLVED** | Project owner | `docs/decisions/ADR-0003-aosp-release.md` | Confirmed: Android 15 tag `android-15.0.0_r1` (`AP3A.240905.015.A2`). `aosp-pinned.xml` instantiated. |
-| `DEC-003` | Kernel version and source | **RESOLVED** | Project owner | `docs/decisions/ADR-0003-aosp-release.md` | Pixel 8 Linux 6.1 LTS baseline (`kernel/google/gs-common`). |
+| `DEC-003` | Target Kernel Source Strategy | **PROPOSED (ADR-0005)** | Project owner | `docs/decisions/ADR-0005-kernel-source-strategy.md` | Option (c) staged approach proposed; awaiting formal owner sign-off upon physical hardware testing. |
 | `DEC-004` | Availability and licensing of vendor drivers/blobs | **OPEN** | Project owner | `docs/build-records/licence-and-dependency-inventory.md` | Proprietary Google driver blobs acquired personally by owner; external redistribution model pending decision. |
 | `DEC-005` | Bootloader unlock/relock and AVB custom key support | **RESOLVED** | Project owner | `docs/specifications/key-and-signing-policy.md` | Bootloader unlock procedure documented; custom AVB key relocking deferred to DeeX Boot module (Chunk 6+). |
 | `DEC-006` | Hardware security element (StrongBox, KeyMint, TEE) | **RESOLVED** | Project owner | `device/target-device/candidates/google-pixel-8.md` | Pixel 8 Titan M2 EAL6+ StrongBox coprocessor present. |
@@ -25,3 +25,5 @@ The following architectural, build, and hardware decisions are tracked for the D
 | `DEC-017` | Hardware-level driver control for radio isolation | **OPEN** | Project owner | `docs/build-records/known-limitations.md` | Driver-level radio cut capability pending physical hardware driver testing (`LIM-002`). |
 | `DEC-018` | Hardware physical partition block sizes and dynamic extent allocation | **OPEN** | Project owner | `docs/build-records/partition-layout.md` | Pending physical device output from owner via `adb shell`. |
 | `DEC-019` | Real hardware support test execution results | **OPEN** | Project owner | `docs/build-records/baseline-hardware-support-report.md` | Pending physical execution of checklist `HW-01` to `HW-16` by owner on target device. |
+| `DEC-KERN-001` | Concurrent active ordinary account session limit | **OPEN** | Project owner | `docs/specifications/resource-accounting-design.md` | Max concurrent ordinary user sessions permitted before blocking session initiation. |
+| `DEC-KERN-002` | eBPF resource accounting enforcement mode | **OPEN** | Project owner | `docs/specifications/resource-accounting-design.md` | User-space monitoring mode vs active kernel cgroup socket filter enforcement. |

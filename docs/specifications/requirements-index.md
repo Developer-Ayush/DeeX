@@ -1,6 +1,6 @@
 # Requirements Index
 
-This document provides a complete index of all mandatory requirements and numeric behavioral rules from the DeeX Master Development Plan v1.0.
+This document provides a complete index of all mandatory requirements, numeric behavioral rules, and module-specific specification requirements from the DeeX Master Development Plan v1.0.
 
 ## Mandatory Requirements Index
 
@@ -61,3 +61,35 @@ This document provides a complete index of all mandatory requirements and numeri
 | `BOOT-009` | DeeX Security Services Partition Protection | MP 3.2, 17.1 | Boot | `REQ-004` | `TEST-BOOT-009` |
 | `BOOT-010` | Verified Boot Protection Boundary Verification | MP 3.4, 17.7 | Boot | `REQ-004` | `TEST-BOOT-010` |
 | `BOOT-011` | Explicit Non-Goals Verification | MP 3.4, 17.7 | Boot | `REQ-004` | `TEST-BOOT-011` |
+
+## DeeX Kernel Specification Requirements (`KERN-` Series)
+
+| Requirement ID | Description | Source Section | Owning Module | Derived Master Plan Mapping | Verification Test ID |
+|---|---|---|---|---|---|
+| `KERN-001` | Platform Architecture and Hardware Driver Retention | MP 4.1, 4.2 | Kernel | `REQ-001`, `REQ-002` | `TEST-KERN-001` |
+| `KERN-002` | Kernel Memory Protections & Process Isolation | MP 4.1, 4.2, 7.3 | Kernel | `REQ-004`, `REQ-006` | `TEST-KERN-002` |
+| `KERN-003` | Mandatory Access Control (SELinux Enforcing) | MP 4.1, 4.2, 7.3 | Kernel | `REQ-004`, `REQ-006` | `TEST-KERN-003` |
+| `KERN-004` | File-Based Encryption (FBE / fscrypt) Support | MP 4.1, 4.2, 5.2 | Kernel | `REQ-004`, `REQ-005` | `TEST-KERN-004` |
+| `KERN-005` | Restricted Debugging & Privileged Interfaces | MP 4.1, 4.2, 17.2 | Kernel | `REQ-004`, `BOOT-007` | `TEST-KERN-005` |
+| `KERN-006` | Kernel Logging Rules & Secret Non-Disclosure | MP 4.2, 17.2 | Kernel | `REQ-004` | `TEST-KERN-006` |
+| `KERN-007` | Titan M2 Secure Hardware Interface Exposure | MP 4.2, 5.2, 6.3 | Kernel | `REQ-004`, `REQ-005` | `TEST-KERN-007` |
+| `KERN-008` | System-Wide Resource Accounting & Threshold Policy | MP 4.3, 4.4, 7.5, 7.6 | Kernel | `RULE-001`, `RULE-002` | `TEST-KERN-008` |
+| `KERN-009` | Background Sanitization Resource Throttling Interface | MP 4.4, 14.5 | Kernel | `RULE-019` | `TEST-KERN-009` |
+| `KERN-010` | Inter-Module Service Interface Support | MP 4.1, 5.2, 7.3, 9.6, 10.2, 14.5 | Kernel | `REQ-005`, `REQ-006`, `REQ-009`, `REQ-010` | `TEST-KERN-010` |
+| `KERN-011` | Build-Variant Kernel Configuration Separation | MP 2.4, 4.1, 4.2 | Kernel | `REQ-004`, `BOOT-007` | `TEST-KERN-011` |
+| `KERN-012` | Explicit Non-Goals & Protection Boundaries | MP 4.3, 17.7 | Kernel | `REQ-013` | `TEST-KERN-012` |
+
+## DeeX Kernel Configuration Requirements (`KCFG-` Series)
+
+| Configuration ID | Description / Option Intent | Primary Source Citation | Owning Module | Verification Test ID |
+|---|---|---|---|---|
+| `KCFG-001` | `CONFIG_FS_ENCRYPTION=y` (fscrypt support) | `https://source.android.com/docs/security/features/encryption/file-based` | Kernel | `TEST-KERN-004` |
+| `KCFG-002` | `CONFIG_SECURITY_SELINUX=y` (SELinux LSM) | `https://source.android.com/docs/security/features/selinux` | Kernel | `TEST-KERN-003` |
+| `KCFG-003` | `CONFIG_CGROUPS=y` (Cgroups v2 unified hierarchy) | `https://www.kernel.org/doc/html/latest/admin-guide/cgroup-v2.html` | Kernel | `TEST-KERN-008` |
+| `KCFG-004` | `CONFIG_BPF_SYSCALL=y` (eBPF subsystem) | `https://source.android.com/docs/core/architecture/kernel/bpf` | Kernel | `TEST-KERN-010` |
+| `KCFG-005` | `CONFIG_CFI_CLANG=y` (Clang CFI protection) | `https://source.android.com/docs/security/test/cfi` | Kernel | `TEST-KERN-002` |
+| `KCFG-006` | `CONFIG_RANDOMIZE_BASE=y` (KASLR) | `https://source.android.com/docs/security/bulletin/kernel-selections` | Kernel | `TEST-KERN-002` |
+| `KCFG-007` | `CONFIG_SHADOW_CALL_STACK=y` (ShadowCallStack) | `https://source.android.com/docs/security/test/shadow-call-stack` | Kernel | `TEST-KERN-002` |
+| `KCFG-008` | `kptr_restrict=2` (Restricted kernel address display) | `https://source.android.com/docs/security/bulletin/kernel-selections` | Kernel | `TEST-KERN-005` |
+| `KCFG-009` | Disable `CONFIG_KGDB` in release builds | `https://source.android.com/docs/security/bulletin/kernel-selections` | Kernel | `TEST-KERN-005` |
+| `KCFG-010` | `CONFIG_GOOGLE_NOS=m` (Titan M2 driver) | `https://android.googlesource.com/kernel/manifest` | Kernel | `TEST-KERN-007` |
