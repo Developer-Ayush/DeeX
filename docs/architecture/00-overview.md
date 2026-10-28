@@ -7,7 +7,7 @@
 DeeX consists of 15 logical modules structured in dependency order:
 
 1. **Boot**: Verified boot chain (AVB 2.0) from hardware root of trust (Pixel 8 Tensor G3 + Titan M2). See `docs/specifications/boot-specification.md` and `docs/architecture/boot/verified-boot-research.md`.
-2. **Kernel**: Linux kernel, driver interfaces, SELinux, process & memory controls.
+2. **Kernel**: Linux kernel, driver interfaces, memory protections, SELinux LSM, resource accounting, and security service exposure. See `docs/specifications/kernel-specification.md` and `docs/architecture/kernel/android-kernel-research.md`.
 3. **Vault**: Storage encryption, hardware key hierarchies, cryptographic erasure.
 4. **Identity**: Multi-account management, authentication verifiers, lockouts.
 5. **Isolation**: Per-account storage & process boundaries.

@@ -18,6 +18,8 @@ log_info() {
 REQUIRED_DIRS="
 docs
 docs/architecture
+docs/architecture/boot
+docs/architecture/kernel
 docs/specifications
 docs/threat-model
 docs/testing
@@ -54,7 +56,7 @@ for dir in $REQUIRED_DIRS; do
     fi
 done
 
-# 2. Check required top-level files and Chunk 1 to 5 deliverables
+# 2. Check required top-level files and Chunk 1 to 7 deliverables
 REQUIRED_FILES="
 README.md
 AGENTS.md
@@ -127,6 +129,15 @@ docs/threat-model/boot-threats.md
 docs/testing/boot-test-plan.md
 docs/decisions/ADR-0004-boot-trust-model.md
 docs/decisions/boot-feasibility-assessment.md
+docs/architecture/kernel/android-kernel-research.md
+docs/specifications/kernel-specification.md
+docs/specifications/driver-retention-matrix.md
+docs/specifications/resource-accounting-design.md
+docs/specifications/kernel-configuration-requirements.md
+docs/decisions/ADR-0005-kernel-source-strategy.md
+docs/threat-model/kernel-threats.md
+docs/testing/kernel-test-plan.md
+docs/decisions/kernel-feasibility-assessment.md
 "
 
 for file in $REQUIRED_FILES; do
@@ -213,13 +224,53 @@ if [ -f "$SPEC_FILE" ] && [ -f "$TEST_PLAN_FILE" ]; then
     done
 fi
 
-# 8. Check ADR-0004 Status
+# 8. Check Chunk 7 Kernel requirement coverage in Kernel Test Plan
+KERN_SPEC_FILE="docs/specifications/kernel-specification.md"
+KERN_TEST_PLAN_FILE="docs/testing/kernel-test-plan.md"
+
+if [ -f "$KERN_SPEC_FILE" ] && [ -f "$KERN_TEST_PLAN_FILE" ]; then
+    KERN_REQS=$(grep -E '^###+ KERN-[0-9]+:' "$KERN_SPEC_FILE" | sed -E 's/.*(KERN-[0-9]+).*/\1/' || true)
+    for req in $KERN_REQS; do
+        if grep -q "$req" "$KERN_TEST_PLAN_FILE"; then
+            log_info "Kernel requirement $req is covered in $KERN_TEST_PLAN_FILE"
+        else
+            log_error "Kernel requirement $req in $KERN_SPEC_FILE is MISSING from $KERN_TEST_PLAN_FILE"
+        fi
+    done
+fi
+
+# 9. Check same-line citation rule for CONFIG_ symbols in Kernel Configuration Requirements
+KCFG_FILE="docs/specifications/kernel-configuration-requirements.md"
+if [ -f "$KCFG_FILE" ]; then
+    CONFIG_LINES=$(grep -E 'CONFIG_[A-Z0-9_]+' "$KCFG_FILE" || true)
+    IFS='
+'
+    for line in $CONFIG_LINES; do
+        if echo "$line" | grep -Eq 'Primary Source:|http://|https://'; then
+            log_info "CONFIG symbol line has same-line citation: $(echo "$line" | cut -c 1-60)..."
+        else
+            log_error "CONFIG symbol line MISSING same-line citation: $line"
+        fi
+    done
+    unset IFS
+fi
+
+# 10. Check ADR-0004 and ADR-0005 Status
 ADR0004_FILE="docs/decisions/ADR-0004-boot-trust-model.md"
 if [ -f "$ADR0004_FILE" ]; then
     if grep -q "UNDECIDED" "$ADR0004_FILE" || grep -q "PROPOSED" "$ADR0004_FILE"; then
         log_info "ADR-0004 contains PROPOSED / UNDECIDED as required"
     else
         log_error "ADR-0004 status must be PROPOSED / UNDECIDED unless owner decision block is signed"
+    fi
+fi
+
+ADR0005_FILE="docs/decisions/ADR-0005-kernel-source-strategy.md"
+if [ -f "$ADR0005_FILE" ]; then
+    if grep -q "UNDECIDED" "$ADR0005_FILE" || grep -q "PROPOSED" "$ADR0005_FILE"; then
+        log_info "ADR-0005 contains PROPOSED / UNDECIDED as required"
+    else
+        log_error "ADR-0005 status must be PROPOSED / UNDECIDED unless owner decision block is signed"
     fi
 fi
 
