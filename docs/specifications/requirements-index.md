@@ -45,3 +45,19 @@ This document provides a complete index of all mandatory requirements and numeri
 | `RULE-018` | USB authentication additional failed groups scaling | Every further group of three doubles previous duration | Section 10.6 | Bridge |
 | `RULE-019` | Background sanitization CPU execution threshold | Below approximately 40–50% (pausing or reducing work above that range) | Section 14.5 | Lifecycle / Vault |
 | `RULE-020` | Background sanitization target completion duration | Approximately 5 to 6 days (target rather than guaranteed deadline) | Section 14.5 | Lifecycle / Vault |
+
+## DeeX Boot Specification Requirements (`BOOT-` Series)
+
+| Boot Requirement ID | Description | Source Section | Owning Module | Derived Master Plan Mapping | Verification Test ID |
+|---|---|---|---|---|---|
+| `BOOT-001` | Hardware Root of Trust Chain Verification | MP 3.1, 3.2 | Boot | `REQ-004` / `RULE-SEC-001` | `TEST-BOOT-001`, `TEST-BOOT-008` |
+| `BOOT-002` | Pre-Execution Kernel & RAM Disk Verification | MP 3.2 | Boot | `REQ-004` | `TEST-BOOT-002` |
+| `BOOT-003` | Runtime Filesystem Verification (`dm-verity`) | MP 3.2, 17.3 | Boot | `REQ-004` | `TEST-BOOT-003` |
+| `BOOT-004` | Mandatory Partition Coverage | MP 3.2 | Boot | `REQ-004` | `TEST-BOOT-004` |
+| `BOOT-005` | AVB Boot State Reporting (`GREEN`/`ORANGE`/`RED`) | MP 3.2, 3.3 | Boot | `REQ-004` | `TEST-BOOT-005` |
+| `BOOT-006` | Boot Failure Response Policy Enforcement (Option B) | MP 3.2, 3.3, 17.3 | Boot | `REQ-004` / `RULE-SEC-002` | `TEST-BOOT-006` |
+| `BOOT-007` | Debug Privilege Absence in Production Builds | MP 2.4, 3.2 | Boot | `REQ-004` | `TEST-BOOT-007` |
+| `BOOT-008` | Key Tier Isolation Enforcement | MP 3.2, 5.2 | Boot | `REQ-004` / `RULE-SEC-003` | `TEST-BOOT-008` |
+| `BOOT-009` | DeeX Security Services Partition Protection | MP 3.2, 17.1 | Boot | `REQ-004` | `TEST-BOOT-009` |
+| `BOOT-010` | Verified Boot Protection Boundary Verification | MP 3.4, 17.7 | Boot | `REQ-004` | `TEST-BOOT-010` |
+| `BOOT-011` | Explicit Non-Goals Verification | MP 3.4, 17.7 | Boot | `REQ-004` | `TEST-BOOT-011` |
